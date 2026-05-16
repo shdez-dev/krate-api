@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="280" viewBox="0 0 900 280">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f0f13;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1a1a24;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#6366f1;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#a855f7;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="softglow">
+      <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="280" fill="url(#bg)" rx="16"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="56" x2="900" y2="56"/>
+    <line x1="0" y1="112" x2="900" y2="112"/>
+    <line x1="0" y1="168" x2="900" y2="168"/>
+    <line x1="0" y1="224" x2="900" y2="224"/>
+    <line x1="150" y1="0" x2="150" y2="280"/>
+    <line x1="300" y1="0" x2="300" y2="280"/>
+    <line x1="450" y1="0" x2="450" y2="280"/>
+    <line x1="600" y1="0" x2="600" y2="280"/>
+    <line x1="750" y1="0" x2="750" y2="280"/>
+  </g>
+
+  <!-- Glow orb left -->
+  <circle cx="120" cy="140" r="100" fill="#6366f1" opacity="0.06" filter="url(#softglow)"/>
+  <!-- Glow orb right -->
+  <circle cx="780" cy="140" r="80" fill="#a855f7" opacity="0.06" filter="url(#softglow)"/>
+
+  <!-- Crate icon -->
+  <g transform="translate(80, 95)" filter="url(#glow)">
+    <!-- Box body -->
+    <rect x="0" y="18" width="72" height="60" rx="4" fill="none" stroke="url(#accent)" stroke-width="2"/>
+    <!-- Box top -->
+    <path d="M0 18 L36 4 L72 18" fill="none" stroke="url(#accent)" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Box lid close line -->
+    <line x1="0" y1="18" x2="72" y2="18" stroke="url(#accent)" stroke-width="1.5" opacity="0.5"/>
+    <!-- Vertical center line -->
+    <line x1="36" y1="18" x2="36" y2="78" stroke="url(#accent)" stroke-width="1.5" opacity="0.4"/>
+    <!-- Horizontal middle line -->
+    <line x1="0" y1="48" x2="72" y2="48" stroke="url(#accent)" stroke-width="1.5" opacity="0.4"/>
+    <!-- Top ridge -->
+    <line x1="36" y1="4" x2="36" y2="18" stroke="url(#accent)" stroke-width="1.5" opacity="0.4"/>
+  </g>
+
+  <!-- Accent bar -->
+  <rect x="180" y="108" width="4" height="70" rx="2" fill="url(#accent)" opacity="0.8"/>
+
+  <!-- KRATE wordmark -->
+  <text
+    x="204"
+    y="161"
+    font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+    font-size="72"
+    font-weight="700"
+    letter-spacing="-2"
+    fill="url(#accent)"
+    filter="url(#glow)"
+  >KRATE</text>
+
+  <!-- Subtitle -->
+  <text
+    x="205"
+    y="192"
+    font-family="'Segoe UI', system-ui, -apple-system, sans-serif"
+    font-size="15"
+    font-weight="400"
+    letter-spacing="4"
+    fill="#94a3b8"
+  >E-COMMERCE REST API</text>
+
+  <!-- Divider line -->
+  <line x1="180" y1="215" x2="720" y2="215" stroke="#ffffff" stroke-width="1" opacity="0.06"/>
+
+  <!-- Tech badges -->
+  <g font-family="'Segoe UI', system-ui, sans-serif" font-size="12" font-weight="500">
+    <!-- NestJS -->
+    <rect x="180" y="228" width="72" height="24" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="1" opacity="0.9"/>
+    <text x="216" y="244" fill="#a5b4fc" text-anchor="middle">NestJS</text>
+
+    <!-- TypeORM -->
+    <rect x="262" y="228" width="76" height="24" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="1" opacity="0.9"/>
+    <text x="300" y="244" fill="#a5b4fc" text-anchor="middle">TypeORM</text>
+
+    <!-- MySQL -->
+    <rect x="348" y="228" width="64" height="24" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="1" opacity="0.9"/>
+    <text x="380" y="244" fill="#a5b4fc" text-anchor="middle">MySQL</text>
+
+    <!-- JWT -->
+    <rect x="422" y="228" width="52" height="24" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="1" opacity="0.9"/>
+    <text x="448" y="244" fill="#a5b4fc" text-anchor="middle">JWT</text>
+
+    <!-- Docker -->
+    <rect x="484" y="228" width="66" height="24" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="1" opacity="0.9"/>
+    <text x="517" y="244" fill="#a5b4fc" text-anchor="middle">Docker</text>
+
+    <!-- Swagger -->
+    <rect x="560" y="228" width="72" height="24" rx="6" fill="#1e1e2e" stroke="#6366f1" stroke-width="1" opacity="0.9"/>
+    <text x="596" y="244" fill="#a5b4fc" text-anchor="middle">Swagger</text>
+  </g>
+
+  <!-- Author -->
+  <text
+    x="720"
+    y="244"
+    font-family="'Segoe UI', system-ui, sans-serif"
+    font-size="12"
+    fill="#475569"
+    text-anchor="end"
+  >by Sebastian Hernandez</text>
+
+  <!-- Border -->
+  <rect width="900" height="280" fill="none" stroke="url(#accent)" stroke-width="1.5" rx="16" opacity="0.3"/>
+</svg>
