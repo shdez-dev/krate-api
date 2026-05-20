@@ -6,7 +6,13 @@ import { CategoriesService } from '../../categories/application/categories.servi
 import { Product } from '../domain/product.entity';
 import { Category } from '../../categories/domain/category.entity';
 
-const mockCategory = new Category('cat-1', 'Electrónica', null, null, new Date());
+const mockCategory = new Category(
+  'cat-1',
+  'Electrónica',
+  null,
+  null,
+  new Date(),
+);
 
 const mockProduct = new Product(
   'prod-1',
@@ -69,13 +75,27 @@ describe('ProductsService', () => {
 
     it('lanza NotFoundException si no existe', async () => {
       productRepo.findById.mockResolvedValue(null);
-      await expect(service.findById('prod-x')).rejects.toThrow(NotFoundException);
+      await expect(service.findById('prod-x')).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('lanza NotFoundException si el producto está eliminado', async () => {
-      const deleted = new Product('prod-1', 'Laptop', null, 999, 0, null, 'cat-1', new Date(), new Date());
+      const deleted = new Product(
+        'prod-1',
+        'Laptop',
+        null,
+        999,
+        0,
+        null,
+        'cat-1',
+        new Date(),
+        new Date(),
+      );
       productRepo.findById.mockResolvedValue(deleted);
-      await expect(service.findById('prod-1')).rejects.toThrow(NotFoundException);
+      await expect(service.findById('prod-1')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -96,12 +116,16 @@ describe('ProductsService', () => {
 
     it('lanza BadRequestException con precio negativo', async () => {
       categoriesService.findById.mockResolvedValue(mockCategory);
-      await expect(service.create({ ...dto, price: -1 })).rejects.toThrow(BadRequestException);
+      await expect(service.create({ ...dto, price: -1 })).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('lanza BadRequestException con stock negativo', async () => {
       categoriesService.findById.mockResolvedValue(mockCategory);
-      await expect(service.create({ ...dto, stock: -1 })).rejects.toThrow(BadRequestException);
+      await expect(service.create({ ...dto, stock: -1 })).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
@@ -117,7 +141,9 @@ describe('ProductsService', () => {
 
     it('lanza NotFoundException si no existe', async () => {
       productRepo.findById.mockResolvedValue(null);
-      await expect(service.update('prod-x', {})).rejects.toThrow(NotFoundException);
+      await expect(service.update('prod-x', {})).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -132,7 +158,9 @@ describe('ProductsService', () => {
 
     it('lanza NotFoundException si no existe', async () => {
       productRepo.findById.mockResolvedValue(null);
-      await expect(service.softDelete('prod-x')).rejects.toThrow(NotFoundException);
+      await expect(service.softDelete('prod-x')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

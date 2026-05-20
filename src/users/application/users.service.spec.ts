@@ -57,7 +57,9 @@ describe('UsersService', () => {
 
     it('lanza NotFoundException si no existe', async () => {
       userRepo.findById.mockResolvedValue(null);
-      await expect(service.findById('uuid-x')).rejects.toThrow(NotFoundException);
+      await expect(service.findById('uuid-x')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -89,16 +91,20 @@ describe('UsersService', () => {
   describe('updateProfile', () => {
     it('actualiza el perfil correctamente', async () => {
       userRepo.findById.mockResolvedValue(mockUser);
-      const updated = { ...mockUser, firstName: 'Seba' } as User;
+      const updated = { ...mockUser, firstName: 'Seba' };
       userRepo.updateProfile.mockResolvedValue(updated);
 
-      const result = await service.updateProfile('uuid-1', { firstName: 'Seba' });
+      const result = await service.updateProfile('uuid-1', {
+        firstName: 'Seba',
+      });
       expect(result.firstName).toBe('Seba');
     });
 
     it('lanza NotFoundException si el usuario no existe', async () => {
       userRepo.findById.mockResolvedValue(null);
-      await expect(service.updateProfile('uuid-x', {})).rejects.toThrow(NotFoundException);
+      await expect(service.updateProfile('uuid-x', {})).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -107,7 +113,10 @@ describe('UsersService', () => {
       hasher.hash.mockResolvedValue('hashed_token');
       await service.saveRefreshToken('uuid-1', 'raw_token');
       expect(hasher.hash).toHaveBeenCalledWith('raw_token');
-      expect(userRepo.updateRefreshToken).toHaveBeenCalledWith('uuid-1', 'hashed_token');
+      expect(userRepo.updateRefreshToken).toHaveBeenCalledWith(
+        'uuid-1',
+        'hashed_token',
+      );
     });
 
     it('guarda null al hacer logout', async () => {
@@ -118,7 +127,10 @@ describe('UsersService', () => {
 
   describe('validateRefreshToken', () => {
     it('retorna true si el token es válido', async () => {
-      const userWithToken = { ...mockUser, refreshToken: 'hashed_token' } as User;
+      const userWithToken = {
+        ...mockUser,
+        refreshToken: 'hashed_token',
+      } as User;
       userRepo.findById.mockResolvedValue(userWithToken);
       hasher.compare.mockResolvedValue(true);
 

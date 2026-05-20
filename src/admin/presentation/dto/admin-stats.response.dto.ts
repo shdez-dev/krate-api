@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { AdminStats, MonthlySales, TopProduct } from '../../application/admin.service';
+import { AdminStats } from '../../application/admin.service';
 
 export class MonthlySalesDto {
   @ApiProperty() month: string;

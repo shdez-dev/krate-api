@@ -5,7 +5,9 @@ import { CartItemOrmEntity } from './cart-item.orm-entity';
 
 export class CartMapper {
   static toDomain(orm: CartOrmEntity): Cart {
-    const items = (orm.items ?? []).map(CartMapper.itemToDomain);
+    const items = (orm.items ?? []).map((item) =>
+      CartMapper.itemToDomain(item),
+    );
     return new Cart(orm.id, orm.userId, items, orm.createdAt);
   }
 

@@ -23,20 +23,27 @@ export class TypeOrmProductRepository implements ProductRepositoryPort {
     if (filters.categoryId) where.categoryId = filters.categoryId;
     if (filters.name) where.name = Like(`%${filters.name}%`);
 
-    const qb = this.repo.createQueryBuilder('product')
+    const qb = this.repo
+      .createQueryBuilder('product')
       .where('product.deleted_at IS NULL');
 
-    if (filters.categoryId) qb.andWhere('product.category_id = :categoryId', { categoryId: filters.categoryId });
-    if (filters.name) qb.andWhere('product.name LIKE :name', { name: `%${filters.name}%` });
-    if (filters.minPrice !== undefined) qb.andWhere('product.price >= :minPrice', { minPrice: filters.minPrice });
-    if (filters.maxPrice !== undefined) qb.andWhere('product.price <= :maxPrice', { maxPrice: filters.maxPrice });
+    if (filters.categoryId)
+      qb.andWhere('product.category_id = :categoryId', {
+        categoryId: filters.categoryId,
+      });
+    if (filters.name)
+      qb.andWhere('product.name LIKE :name', { name: `%${filters.name}%` });
+    if (filters.minPrice !== undefined)
+      qb.andWhere('product.price >= :minPrice', { minPrice: filters.minPrice });
+    if (filters.maxPrice !== undefined)
+      qb.andWhere('product.price <= :maxPrice', { maxPrice: filters.maxPrice });
 
     const total = await qb.getCount();
 
     qb.skip(filters.offset ?? 0).take(filters.limit ?? 10);
 
     const results = await qb.getMany();
-    return { data: results.map(ProductMapper.toDomain), total };
+    return { data: results.map((p) => ProductMapper.toDomain(p)), total };
   }
 
   async findById(id: string): Promise<Product | null> {
@@ -52,7 +59,12 @@ export class TypeOrmProductRepository implements ProductRepositoryPort {
 
   async update(
     id: string,
-    data: Partial<Pick<Product, 'name' | 'description' | 'price' | 'stock' | 'imageUrl' | 'categoryId'>>,
+    data: Partial<
+      Pick<
+        Product,
+        'name' | 'description' | 'price' | 'stock' | 'imageUrl' | 'categoryId'
+      >
+    >,
   ): Promise<Product> {
     await this.repo.update(id, data);
     const orm = await this.repo.findOneOrFail({ where: { id } });

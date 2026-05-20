@@ -4,7 +4,13 @@ import { CategoriesService } from './categories.service';
 import { CategoryRepositoryPort } from '../domain/category.repository.port';
 import { Category } from '../domain/category.entity';
 
-const mockCategory = new Category('uuid-1', 'Electrónica', null, null, new Date());
+const mockCategory = new Category(
+  'uuid-1',
+  'Electrónica',
+  null,
+  null,
+  new Date(),
+);
 
 describe('CategoriesService', () => {
   let service: CategoriesService;
@@ -49,7 +55,9 @@ describe('CategoriesService', () => {
 
     it('lanza NotFoundException si no existe', async () => {
       categoryRepo.findById.mockResolvedValue(null);
-      await expect(service.findById('uuid-x')).rejects.toThrow(NotFoundException);
+      await expect(service.findById('uuid-x')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
@@ -62,8 +70,9 @@ describe('CategoriesService', () => {
 
     it('lanza BadRequestException si el padre no existe', async () => {
       categoryRepo.exists.mockResolvedValue(false);
-      await expect(service.create({ name: 'Sub', parentId: 'uuid-x' }))
-        .rejects.toThrow(BadRequestException);
+      await expect(
+        service.create({ name: 'Sub', parentId: 'uuid-x' }),
+      ).rejects.toThrow(BadRequestException);
     });
 
     it('crea una categoría con padre válido', async () => {
@@ -88,13 +97,16 @@ describe('CategoriesService', () => {
 
     it('lanza NotFoundException si no existe', async () => {
       categoryRepo.findById.mockResolvedValue(null);
-      await expect(service.update('uuid-x', { name: 'X' })).rejects.toThrow(NotFoundException);
+      await expect(service.update('uuid-x', { name: 'X' })).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('lanza BadRequestException si se asigna como su propio padre', async () => {
       categoryRepo.findById.mockResolvedValue(mockCategory);
-      await expect(service.update('uuid-1', { parentId: 'uuid-1' }))
-        .rejects.toThrow(BadRequestException);
+      await expect(
+        service.update('uuid-1', { parentId: 'uuid-1' }),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 

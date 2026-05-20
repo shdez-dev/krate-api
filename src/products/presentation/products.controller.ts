@@ -24,7 +24,10 @@ import { ProductsService } from '../application/products.service';
 import { CreateProductRequestDto } from './dto/create-product.request.dto';
 import { UpdateProductRequestDto } from './dto/update-product.request.dto';
 import { ProductFiltersQueryDto } from './dto/product-filters.query.dto';
-import { ProductResponseDto, PaginatedProductsResponseDto } from './dto/product.response.dto';
+import {
+  ProductResponseDto,
+  PaginatedProductsResponseDto,
+} from './dto/product.response.dto';
 import { JwtAuthGuard } from '../../shared/presentation/guards/jwt-auth.guard';
 import { RolesGuard } from '../../shared/presentation/guards/roles.guard';
 import { Roles } from '../../shared/presentation/decorators/roles.decorator';
@@ -37,10 +40,12 @@ export class ProductsController {
 
   @Get()
   @ApiOkResponse({ type: PaginatedProductsResponseDto })
-  async findAll(@Query() filters: ProductFiltersQueryDto): Promise<PaginatedProductsResponseDto> {
+  async findAll(
+    @Query() filters: ProductFiltersQueryDto,
+  ): Promise<PaginatedProductsResponseDto> {
     const result = await this.productsService.findAll(filters);
     return {
-      data: result.data.map(ProductResponseDto.fromDomain),
+      data: result.data.map((p) => ProductResponseDto.fromDomain(p)),
       total: result.total,
     };
   }
@@ -48,7 +53,9 @@ export class ProductsController {
   @Get(':id')
   @ApiOkResponse({ type: ProductResponseDto })
   @ApiNotFoundResponse()
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<ProductResponseDto> {
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<ProductResponseDto> {
     const product = await this.productsService.findById(id);
     return ProductResponseDto.fromDomain(product);
   }
@@ -58,7 +65,9 @@ export class ProductsController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiCreatedResponse({ type: ProductResponseDto })
-  async create(@Body() dto: CreateProductRequestDto): Promise<ProductResponseDto> {
+  async create(
+    @Body() dto: CreateProductRequestDto,
+  ): Promise<ProductResponseDto> {
     const product = await this.productsService.create(dto);
     return ProductResponseDto.fromDomain(product);
   }

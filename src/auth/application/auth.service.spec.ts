@@ -23,7 +23,6 @@ describe('AuthService', () => {
   let service: AuthService;
   let usersService: jest.Mocked<UsersService>;
   let hasher: jest.Mocked<HashPort>;
-  let jwtService: jest.Mocked<JwtService>;
 
   beforeEach(async () => {
     const module = await Test.createTestingModule({
@@ -57,7 +56,6 @@ describe('AuthService', () => {
     service = module.get(AuthService);
     usersService = module.get(UsersService);
     hasher = module.get(HashPort);
-    jwtService = module.get(JwtService);
   });
 
   describe('register', () => {
@@ -84,21 +82,26 @@ describe('AuthService', () => {
       hasher.compare.mockResolvedValue(true);
       usersService.saveRefreshToken.mockResolvedValue();
 
-      const result = await service.login({ email: 'user@krate.dev', password: 'pass1234' });
+      const result = await service.login({
+        email: 'user@krate.dev',
+        password: 'pass1234',
+      });
       expect(result.accessToken).toBeDefined();
     });
 
     it('lanza UnauthorizedException si el usuario no existe', async () => {
       usersService.findByEmail.mockResolvedValue(null);
-      await expect(service.login({ email: 'no@krate.dev', password: 'pass' }))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.login({ email: 'no@krate.dev', password: 'pass' }),
+      ).rejects.toThrow(UnauthorizedException);
     });
 
     it('lanza UnauthorizedException si la contraseña es incorrecta', async () => {
       usersService.findByEmail.mockResolvedValue(mockUser);
       hasher.compare.mockResolvedValue(false);
-      await expect(service.login({ email: 'user@krate.dev', password: 'wrong' }))
-        .rejects.toThrow(UnauthorizedException);
+      await expect(
+        service.login({ email: 'user@krate.dev', password: 'wrong' }),
+      ).rejects.toThrow(UnauthorizedException);
     });
   });
 
@@ -114,7 +117,9 @@ describe('AuthService', () => {
 
     it('lanza UnauthorizedException con refresh inválido', async () => {
       usersService.validateRefreshToken.mockResolvedValue(false);
-      await expect(service.refresh('uuid-1', 'bad_token')).rejects.toThrow(UnauthorizedException);
+      await expect(service.refresh('uuid-1', 'bad_token')).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 
@@ -122,7 +127,10 @@ describe('AuthService', () => {
     it('invalida el refresh token', async () => {
       usersService.saveRefreshToken.mockResolvedValue();
       await service.logout('uuid-1');
-      expect(usersService.saveRefreshToken).toHaveBeenCalledWith('uuid-1', null);
+      expect(usersService.saveRefreshToken).toHaveBeenCalledWith(
+        'uuid-1',
+        null,
+      );
     });
   });
 });

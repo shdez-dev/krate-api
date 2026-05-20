@@ -39,7 +39,9 @@ export class OrderResponseDto {
     dto.status = order.status;
     dto.total = order.total;
     dto.shippingAddress = order.shippingAddress;
-    dto.items = order.items.map(OrderItemResponseDto.fromDomain);
+    dto.items = order.items.map((item) =>
+      OrderItemResponseDto.fromDomain(item),
+    );
     dto.createdAt = order.createdAt;
     return dto;
   }

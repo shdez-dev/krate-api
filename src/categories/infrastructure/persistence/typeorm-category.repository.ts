@@ -15,7 +15,7 @@ export class TypeOrmCategoryRepository implements CategoryRepositoryPort {
 
   async findAll(): Promise<Category[]> {
     const results = await this.repo.find();
-    return results.map(CategoryMapper.toDomain);
+    return results.map((o) => CategoryMapper.toDomain(o));
   }
 
   async findById(id: string): Promise<Category | null> {

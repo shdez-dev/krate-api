@@ -40,8 +40,6 @@ import { AdminModule } from './admin/infrastructure/admin.module';
     PaymentsModule,
     AdminModule,
   ],
-  providers: [
-    { provide: APP_GUARD, useClass: ThrottlerGuard },
-  ],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
 })
 export class AppModule {}

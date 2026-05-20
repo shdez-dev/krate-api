@@ -37,7 +37,7 @@ export class OrdersController {
   @ApiOkResponse({ type: OrderResponseDto, isArray: true })
   async findMyOrders(@CurrentUser() user: User): Promise<OrderResponseDto[]> {
     const orders = await this.ordersService.findByUser(user.id);
-    return orders.map(OrderResponseDto.fromDomain);
+    return orders.map((o) => OrderResponseDto.fromDomain(o));
   }
 
   @Get(':id')

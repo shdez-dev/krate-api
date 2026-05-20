@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { Category } from '../domain/category.entity';
 import { CategoryRepositoryPort } from '../domain/category.repository.port';
@@ -22,7 +26,8 @@ export class CategoriesService {
   async create(dto: CreateCategoryDto): Promise<Category> {
     if (dto.parentId) {
       const parentExists = await this.categoryRepo.exists(dto.parentId);
-      if (!parentExists) throw new BadRequestException('La categoría padre no existe');
+      if (!parentExists)
+        throw new BadRequestException('La categoría padre no existe');
     }
 
     const category = new Category(
@@ -39,9 +44,13 @@ export class CategoriesService {
     await this.findById(id);
 
     if (dto.parentId) {
-      if (dto.parentId === id) throw new BadRequestException('Una categoría no puede ser su propio padre');
+      if (dto.parentId === id)
+        throw new BadRequestException(
+          'Una categoría no puede ser su propio padre',
+        );
       const parentExists = await this.categoryRepo.exists(dto.parentId);
-      if (!parentExists) throw new BadRequestException('La categoría padre no existe');
+      if (!parentExists)
+        throw new BadRequestException('La categoría padre no existe');
     }
 
     return this.categoryRepo.update(id, dto);

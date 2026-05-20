@@ -38,20 +38,34 @@ export class TypeOrmCartRepository implements CartRepositoryPort {
     return orm ? CartMapper.itemToDomain(orm) : null;
   }
 
-  async addItem(cartId: string, productId: string, quantity: number): Promise<CartItem> {
-    const existing = await this.itemRepo.findOne({ where: { cartId, productId } });
+  async addItem(
+    cartId: string,
+    productId: string,
+    quantity: number,
+  ): Promise<CartItem> {
+    const existing = await this.itemRepo.findOne({
+      where: { cartId, productId },
+    });
     if (existing) {
       existing.quantity += quantity;
       const saved = await this.itemRepo.save(existing);
       return CartMapper.itemToDomain(saved);
     }
 
-    const item = this.itemRepo.create({ id: uuid(), cartId, productId, quantity });
+    const item = this.itemRepo.create({
+      id: uuid(),
+      cartId,
+      productId,
+      quantity,
+    });
     const saved = await this.itemRepo.save(item);
     return CartMapper.itemToDomain(saved);
   }
 
-  async updateItemQuantity(itemId: string, quantity: number): Promise<CartItem> {
+  async updateItemQuantity(
+    itemId: string,
+    quantity: number,
+  ): Promise<CartItem> {
     await this.itemRepo.update(itemId, { quantity });
     const orm = await this.itemRepo.findOneOrFail({ where: { id: itemId } });
     return CartMapper.itemToDomain(orm);

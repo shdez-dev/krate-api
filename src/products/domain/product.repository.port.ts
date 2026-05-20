@@ -18,7 +18,15 @@ export abstract class ProductRepositoryPort {
   abstract findAll(filters: ProductFilters): Promise<PaginatedProducts>;
   abstract findById(id: string): Promise<Product | null>;
   abstract save(product: Product): Promise<Product>;
-  abstract update(id: string, data: Partial<Pick<Product, 'name' | 'description' | 'price' | 'stock' | 'imageUrl' | 'categoryId'>>): Promise<Product>;
+  abstract update(
+    id: string,
+    data: Partial<
+      Pick<
+        Product,
+        'name' | 'description' | 'price' | 'stock' | 'imageUrl' | 'categoryId'
+      >
+    >,
+  ): Promise<Product>;
   abstract softDelete(id: string): Promise<void>;
   abstract exists(id: string): Promise<boolean>;
 }

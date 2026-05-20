@@ -1,8 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 import { PaymentMethod } from '../../../shared/domain/value-objects/payment-method.enum';
 import { PaymentStatus } from '../../../shared/domain/value-objects/payment-status.enum';
 

@@ -26,7 +26,7 @@ export class CartResponseDto {
     const dto = new CartResponseDto();
     dto.id = cart.id;
     dto.userId = cart.userId;
-    dto.items = cart.items.map(CartItemResponseDto.fromDomain);
+    dto.items = cart.items.map((item) => CartItemResponseDto.fromDomain(item));
     dto.createdAt = cart.createdAt;
     return dto;
   }

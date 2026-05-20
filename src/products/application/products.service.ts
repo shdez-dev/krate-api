@@ -1,7 +1,15 @@
-import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
 import { Product } from '../domain/product.entity';
-import { ProductRepositoryPort, ProductFilters, PaginatedProducts } from '../domain/product.repository.port';
+import {
+  ProductRepositoryPort,
+  ProductFilters,
+  PaginatedProducts,
+} from '../domain/product.repository.port';
 import { CategoriesService } from '../../categories/application/categories.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
@@ -19,15 +27,18 @@ export class ProductsService {
 
   async findById(id: string): Promise<Product> {
     const product = await this.productRepo.findById(id);
-    if (!product || !product.isActive) throw new NotFoundException('Producto no encontrado');
+    if (!product || !product.isActive)
+      throw new NotFoundException('Producto no encontrado');
     return product;
   }
 
   async create(dto: CreateProductDto): Promise<Product> {
     await this.categoriesService.findById(dto.categoryId);
 
-    if (dto.price < 0) throw new BadRequestException('El precio no puede ser negativo');
-    if (dto.stock !== undefined && dto.stock < 0) throw new BadRequestException('El stock no puede ser negativo');
+    if (dto.price < 0)
+      throw new BadRequestException('El precio no puede ser negativo');
+    if (dto.stock !== undefined && dto.stock < 0)
+      throw new BadRequestException('El stock no puede ser negativo');
 
     const product = new Product(
       uuid(),
@@ -47,8 +58,10 @@ export class ProductsService {
     await this.findById(id);
 
     if (dto.categoryId) await this.categoriesService.findById(dto.categoryId);
-    if (dto.price !== undefined && dto.price < 0) throw new BadRequestException('El precio no puede ser negativo');
-    if (dto.stock !== undefined && dto.stock < 0) throw new BadRequestException('El stock no puede ser negativo');
+    if (dto.price !== undefined && dto.price < 0)
+      throw new BadRequestException('El precio no puede ser negativo');
+    if (dto.stock !== undefined && dto.stock < 0)
+      throw new BadRequestException('El stock no puede ser negativo');
 
     return this.productRepo.update(id, dto);
   }

@@ -29,7 +29,9 @@ async function seed() {
   const productRepo = dataSource.getRepository(ProductOrmEntity);
 
   // ── Usuarios ──────────────────────────────────────────────────────────────
-  const existingAdmin = await userRepo.findOne({ where: { email: 'admin@krate.dev' } });
+  const existingAdmin = await userRepo.findOne({
+    where: { email: 'admin@krate.dev' },
+  });
 
   if (!existingAdmin) {
     const passwordHash = await bcrypt.hash('Admin1234!', 12);
@@ -97,7 +99,8 @@ async function seed() {
       productRepo.create({
         id: uuid(),
         name: 'Laptop Pro 15',
-        description: 'Laptop de alto rendimiento con procesador Intel i7 y 16GB RAM',
+        description:
+          'Laptop de alto rendimiento con procesador Intel i7 y 16GB RAM',
         price: 1299.99,
         stock: 15,
         imageUrl: null,
@@ -169,7 +172,8 @@ async function seed() {
       productRepo.create({
         id: uuid(),
         name: 'Lámpara LED Escritorio',
-        description: 'Lámpara de escritorio con luz regulable y temperatura de color',
+        description:
+          'Lámpara de escritorio con luz regulable y temperatura de color',
         price: 39.99,
         stock: 60,
         imageUrl: null,

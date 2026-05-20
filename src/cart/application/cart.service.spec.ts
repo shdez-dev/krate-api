@@ -1,5 +1,9 @@
 import { Test } from '@nestjs/testing';
-import { NotFoundException, BadRequestException, ForbiddenException } from '@nestjs/common';
+import {
+  NotFoundException,
+  BadRequestException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { CartService } from './cart.service';
 import { CartRepositoryPort } from '../domain/cart.repository.port';
 import { ProductsService } from '../../products/application/products.service';
@@ -7,10 +11,19 @@ import { Cart } from '../domain/cart.entity';
 import { CartItem } from '../domain/cart-item.entity';
 import { Product } from '../../products/domain/product.entity';
 
-const mockProduct = new Product('prod-1', 'Laptop', null, 999, 10, null, 'cat-1', null, new Date());
+const mockProduct = new Product(
+  'prod-1',
+  'Laptop',
+  null,
+  999,
+  10,
+  null,
+  'cat-1',
+  null,
+  new Date(),
+);
 const mockItem = new CartItem('item-1', 'cart-1', 'prod-1', 2);
 const mockCart = new Cart('cart-1', 'user-1', [mockItem], new Date());
-const emptyCart = new Cart('cart-1', 'user-1', [], new Date());
 
 describe('CartService', () => {
   let service: CartService;
@@ -59,21 +72,36 @@ describe('CartService', () => {
       cartRepo.findOrCreateByUserId.mockResolvedValue(mockCart);
       cartRepo.addItem.mockResolvedValue(mockItem);
 
-      const result = await service.addItem('user-1', { productId: 'prod-1', quantity: 2 });
+      const result = await service.addItem('user-1', {
+        productId: 'prod-1',
+        quantity: 2,
+      });
       expect(result).toBe(mockItem);
     });
 
     it('lanza BadRequestException si la cantidad es 0', async () => {
       productsService.findById.mockResolvedValue(mockProduct);
-      await expect(service.addItem('user-1', { productId: 'prod-1', quantity: 0 }))
-        .rejects.toThrow(BadRequestException);
+      await expect(
+        service.addItem('user-1', { productId: 'prod-1', quantity: 0 }),
+      ).rejects.toThrow(BadRequestException);
     });
 
     it('lanza BadRequestException si no hay stock suficiente', async () => {
-      const lowStock = new Product('prod-1', 'Laptop', null, 999, 1, null, 'cat-1', null, new Date());
+      const lowStock = new Product(
+        'prod-1',
+        'Laptop',
+        null,
+        999,
+        1,
+        null,
+        'cat-1',
+        null,
+        new Date(),
+      );
       productsService.findById.mockResolvedValue(lowStock);
-      await expect(service.addItem('user-1', { productId: 'prod-1', quantity: 5 }))
-        .rejects.toThrow(BadRequestException);
+      await expect(
+        service.addItem('user-1', { productId: 'prod-1', quantity: 5 }),
+      ).rejects.toThrow(BadRequestException);
     });
   });
 
@@ -91,14 +119,18 @@ describe('CartService', () => {
 
     it('lanza NotFoundException si el ítem no existe', async () => {
       cartRepo.findItemById.mockResolvedValue(null);
-      await expect(service.updateItem('user-1', 'item-x', 2)).rejects.toThrow(NotFoundException);
+      await expect(service.updateItem('user-1', 'item-x', 2)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('lanza ForbiddenException si el ítem no pertenece al usuario', async () => {
       const otherItem = new CartItem('item-1', 'other-cart', 'prod-1', 2);
       cartRepo.findItemById.mockResolvedValue(otherItem);
       cartRepo.findByUserId.mockResolvedValue(mockCart);
-      await expect(service.updateItem('user-1', 'item-1', 2)).rejects.toThrow(ForbiddenException);
+      await expect(service.updateItem('user-1', 'item-1', 2)).rejects.toThrow(
+        ForbiddenException,
+      );
     });
   });
 
@@ -114,7 +146,9 @@ describe('CartService', () => {
 
     it('lanza NotFoundException si el ítem no existe', async () => {
       cartRepo.findItemById.mockResolvedValue(null);
-      await expect(service.removeItem('user-1', 'item-x')).rejects.toThrow(NotFoundException);
+      await expect(service.removeItem('user-1', 'item-x')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 

@@ -25,7 +25,11 @@ export class TypeOrmPaymentRepository implements PaymentRepositoryPort {
     return PaymentMapper.toDomain(saved);
   }
 
-  async updateStatus(id: string, status: string, paidAt: Date | null): Promise<Payment> {
+  async updateStatus(
+    id: string,
+    status: string,
+    paidAt: Date | null,
+  ): Promise<Payment> {
     await this.repo.update(id, { status: status as PaymentStatus, paidAt });
     const orm = await this.repo.findOneOrFail({ where: { id } });
     return PaymentMapper.toDomain(orm);

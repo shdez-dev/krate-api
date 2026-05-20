@@ -60,10 +60,14 @@ export class OrdersService {
         });
 
         if (!product || product.deletedAt) {
-          throw new BadRequestException(`Producto no disponible: ${cartItem.productId}`);
+          throw new BadRequestException(
+            `Producto no disponible: ${cartItem.productId}`,
+          );
         }
         if (product.stock < cartItem.quantity) {
-          throw new BadRequestException(`Stock insuficiente para: ${product.name}`);
+          throw new BadRequestException(
+            `Stock insuficiente para: ${product.name}`,
+          );
         }
 
         product.stock -= cartItem.quantity;
@@ -81,7 +85,14 @@ export class OrdersService {
           quantity: cartItem.quantity,
         });
         orderItems.push(
-          new OrderItem(item.id, orderId, product.id, product.name, itemPrice, cartItem.quantity),
+          new OrderItem(
+            item.id,
+            orderId,
+            product.id,
+            product.name,
+            itemPrice,
+            cartItem.quantity,
+          ),
         );
         await manager.save(OrderItemOrmEntity, item);
       }

@@ -37,13 +37,15 @@ export class CategoriesController {
   @ApiOkResponse({ type: CategoryResponseDto, isArray: true })
   async findAll(): Promise<CategoryResponseDto[]> {
     const categories = await this.categoriesService.findAll();
-    return categories.map(CategoryResponseDto.fromDomain);
+    return categories.map((c) => CategoryResponseDto.fromDomain(c));
   }
 
   @Get(':id')
   @ApiOkResponse({ type: CategoryResponseDto })
   @ApiNotFoundResponse()
-  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<CategoryResponseDto> {
+  async findOne(
+    @Param('id', ParseUUIDPipe) id: string,
+  ): Promise<CategoryResponseDto> {
     const category = await this.categoriesService.findById(id);
     return CategoryResponseDto.fromDomain(category);
   }
@@ -53,7 +55,9 @@ export class CategoriesController {
   @UseGuards(JwtAuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @ApiCreatedResponse({ type: CategoryResponseDto })
-  async create(@Body() dto: CreateCategoryRequestDto): Promise<CategoryResponseDto> {
+  async create(
+    @Body() dto: CreateCategoryRequestDto,
+  ): Promise<CategoryResponseDto> {
     const category = await this.categoriesService.create(dto);
     return CategoryResponseDto.fromDomain(category);
   }

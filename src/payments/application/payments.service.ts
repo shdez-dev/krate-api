@@ -21,14 +21,21 @@ export class PaymentsService {
   ) {}
 
   async create(userId: string, dto: CreatePaymentDto): Promise<Payment> {
-    const order = await this.ordersService.findById(dto.orderId, userId, UserRole.CUSTOMER);
+    const order = await this.ordersService.findById(
+      dto.orderId,
+      userId,
+      UserRole.CUSTOMER,
+    );
 
     if (order.status !== OrderStatus.PENDING) {
-      throw new BadRequestException('Solo se pueden pagar órdenes en estado pending');
+      throw new BadRequestException(
+        'Solo se pueden pagar órdenes en estado pending',
+      );
     }
 
     const existing = await this.paymentRepo.findByOrderId(dto.orderId);
-    if (existing) throw new ConflictException('Esta orden ya tiene un pago registrado');
+    if (existing)
+      throw new ConflictException('Esta orden ya tiene un pago registrado');
 
     const payment = new Payment(
       uuid(),

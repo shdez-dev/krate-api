@@ -1,5 +1,9 @@
 import { Test } from '@nestjs/testing';
-import { NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { PaymentsService } from './payments.service';
 import { PaymentRepositoryPort } from '../domain/payment.repository.port';
 import { OrdersService } from '../../orders/application/orders.service';
@@ -9,12 +13,40 @@ import { PaymentMethod } from '../../shared/domain/value-objects/payment-method.
 import { PaymentStatus } from '../../shared/domain/value-objects/payment-status.enum';
 import { OrderStatus } from '../../shared/domain/value-objects/order-status.enum';
 
-const shippingAddress = { street: 'Calle 1', city: 'Bogotá', country: 'Colombia', zip: '110111' };
+const shippingAddress = {
+  street: 'Calle 1',
+  city: 'Bogotá',
+  country: 'Colombia',
+  zip: '110111',
+};
 
-const mockOrder = new Order('order-1', 'user-1', OrderStatus.PENDING, 999, shippingAddress, [], new Date());
-const paidOrder = new Order('order-1', 'user-1', OrderStatus.PAID, 999, shippingAddress, [], new Date());
+const mockOrder = new Order(
+  'order-1',
+  'user-1',
+  OrderStatus.PENDING,
+  999,
+  shippingAddress,
+  [],
+  new Date(),
+);
+const paidOrder = new Order(
+  'order-1',
+  'user-1',
+  OrderStatus.PAID,
+  999,
+  shippingAddress,
+  [],
+  new Date(),
+);
 
-const mockPayment = new Payment('pay-1', 'order-1', PaymentMethod.CARD, PaymentStatus.COMPLETED, 999, new Date());
+const mockPayment = new Payment(
+  'pay-1',
+  'order-1',
+  PaymentMethod.CARD,
+  PaymentStatus.COMPLETED,
+  999,
+  new Date(),
+);
 
 describe('PaymentsService', () => {
   let service: PaymentsService;
@@ -59,18 +91,25 @@ describe('PaymentsService', () => {
 
       const result = await service.create('user-1', dto);
       expect(result).toBe(mockPayment);
-      expect(ordersService.updateStatus).toHaveBeenCalledWith('order-1', OrderStatus.PAID);
+      expect(ordersService.updateStatus).toHaveBeenCalledWith(
+        'order-1',
+        OrderStatus.PAID,
+      );
     });
 
     it('lanza BadRequestException si la orden no está en pending', async () => {
       ordersService.findById.mockResolvedValue(paidOrder);
-      await expect(service.create('user-1', dto)).rejects.toThrow(BadRequestException);
+      await expect(service.create('user-1', dto)).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('lanza ConflictException si ya existe un pago para la orden', async () => {
       ordersService.findById.mockResolvedValue(mockOrder);
       paymentRepo.findByOrderId.mockResolvedValue(mockPayment);
-      await expect(service.create('user-1', dto)).rejects.toThrow(ConflictException);
+      await expect(service.create('user-1', dto)).rejects.toThrow(
+        ConflictException,
+      );
     });
   });
 
@@ -85,7 +124,9 @@ describe('PaymentsService', () => {
     it('lanza NotFoundException si no hay pago', async () => {
       ordersService.findById.mockResolvedValue(mockOrder);
       paymentRepo.findByOrderId.mockResolvedValue(null);
-      await expect(service.findByOrder('order-1', 'user-1')).rejects.toThrow(NotFoundException);
+      await expect(service.findByOrder('order-1', 'user-1')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 });

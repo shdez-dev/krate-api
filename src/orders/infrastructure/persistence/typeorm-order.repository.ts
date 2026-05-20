@@ -21,12 +21,12 @@ export class TypeOrmOrderRepository implements OrderRepositoryPort {
 
   async findByUserId(userId: string): Promise<Order[]> {
     const results = await this.repo.find({ where: { userId } });
-    return results.map(OrderMapper.toDomain);
+    return results.map((o) => OrderMapper.toDomain(o));
   }
 
   async findAll(): Promise<Order[]> {
     const results = await this.repo.find();
-    return results.map(OrderMapper.toDomain);
+    return results.map((o) => OrderMapper.toDomain(o));
   }
 
   async save(order: Order): Promise<Order> {

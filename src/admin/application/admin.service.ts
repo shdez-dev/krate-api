@@ -49,7 +49,11 @@ export class AdminService {
       .addSelect('SUM(order.total)', 'total')
       .addSelect('COUNT(order.id)', 'count')
       .where('order.status IN (:...statuses)', {
-        statuses: [OrderStatus.PAID, OrderStatus.SHIPPED, OrderStatus.DELIVERED],
+        statuses: [
+          OrderStatus.PAID,
+          OrderStatus.SHIPPED,
+          OrderStatus.DELIVERED,
+        ],
       })
       .groupBy('month')
       .orderBy('month', 'DESC')
@@ -71,13 +75,21 @@ export class AdminService {
       .addSelect('item.product_name', 'productName')
       .addSelect('SUM(item.quantity)', 'totalSold')
       .where('order.status IN (:...statuses)', {
-        statuses: [OrderStatus.PAID, OrderStatus.SHIPPED, OrderStatus.DELIVERED],
+        statuses: [
+          OrderStatus.PAID,
+          OrderStatus.SHIPPED,
+          OrderStatus.DELIVERED,
+        ],
       })
       .groupBy('item.product_id')
       .addGroupBy('item.product_name')
       .orderBy('totalSold', 'DESC')
       .limit(5)
-      .getRawMany<{ productId: string; productName: string; totalSold: string }>();
+      .getRawMany<{
+        productId: string;
+        productName: string;
+        totalSold: string;
+      }>();
 
     return results.map((r) => ({
       productId: r.productId,

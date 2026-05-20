@@ -15,7 +15,10 @@ export class CartOrmEntity {
   @Column({ name: 'user_id' })
   userId: string;
 
-  @OneToMany(() => CartItemOrmEntity, (item) => item.cart, { cascade: true, eager: true })
+  @OneToMany(() => CartItemOrmEntity, (item) => item.cart, {
+    cascade: true,
+    eager: true,
+  })
   items: CartItemOrmEntity[];
 
   @CreateDateColumn({ name: 'created_at' })

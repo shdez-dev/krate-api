@@ -5,7 +5,9 @@ import { OrderItemOrmEntity } from './order-item.orm-entity';
 
 export class OrderMapper {
   static toDomain(orm: OrderOrmEntity): Order {
-    const items = (orm.items ?? []).map(OrderMapper.itemToDomain);
+    const items = (orm.items ?? []).map((item) =>
+      OrderMapper.itemToDomain(item),
+    );
     return new Order(
       orm.id,
       orm.userId,
