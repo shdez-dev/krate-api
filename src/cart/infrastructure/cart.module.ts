@@ -18,6 +18,6 @@ import { ProductsModule } from '../../products/infrastructure/products.module';
     { provide: CartRepositoryPort, useClass: TypeOrmCartRepository },
   ],
   controllers: [CartController],
-  exports: [CartService],
+  exports: [CartService, CartRepositoryPort],
 })
 export class CartModule {}

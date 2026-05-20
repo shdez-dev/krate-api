@@ -6,6 +6,9 @@ import { AuthModule } from './auth/infrastructure/auth.module';
 import { CategoriesModule } from './categories/infrastructure/categories.module';
 import { ProductsModule } from './products/infrastructure/products.module';
 import { CartModule } from './cart/infrastructure/cart.module';
+import { OrdersModule } from './orders/infrastructure/orders.module';
+import { PaymentsModule } from './payments/infrastructure/payments.module';
+import { AdminModule } from './admin/infrastructure/admin.module';
 
 @Module({
   imports: [
@@ -30,6 +33,9 @@ import { CartModule } from './cart/infrastructure/cart.module';
     CategoriesModule,
     ProductsModule,
     CartModule,
+    OrdersModule,
+    PaymentsModule,
+    AdminModule,
   ],
 })
 export class AppModule {}
