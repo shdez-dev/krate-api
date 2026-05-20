@@ -47,7 +47,7 @@ Las capas `domain` y `application` no tienen dependencias de NestJS, TypeORM ni 
 | Validación | class-validator · class-transformer · ValidationPipe global |
 | Seguridad | Helmet · CORS · Rate limiting (60 req/min) · Refresh tokens hasheados |
 | Documentación | Swagger / OpenAPI 3 — `/api/docs` |
-| DevOps | Docker · docker-compose · GitHub Actions CI · Railway |
+| DevOps | Docker · docker-compose · GitHub Actions CI |
 
 ## Módulos
 
